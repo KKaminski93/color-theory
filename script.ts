@@ -95,13 +95,31 @@ const Hsv2Hsl = (hsv: number[]) => {
   return [h, Math.round(sl * 100), Math.round(l * 100)];
 };
 
+// todo
 const Hsv2Rgb = (hsv: number[]) => {};
 
+// todo
 const Rgb2Hsv = (rgb: number[]) => {};
 
-const Hsv2Hwb = (hsv: number[]) => {};
+const Hsv2Hwb = (hsv: number[]) => {
+  let h = hsv[0];
+  let sv = hsv[1] / 100;
+  let v = hsv[2] / 100;
+  let w = (1 - sv) * v;
+  let b = 1 - v;
 
-const Hwb2Hsv = (hwb: number[]) => {};
+  return [h, Math.round(w * 100), Math.round(b * 100)];
+};
+
+const Hwb2Hsv = (hwb: number[]) => {
+  let h = hwb[0];
+  let w = hwb[1] / 100;
+  let b = hwb[2] / 100;
+  let sv = 1 - w / (1 - b);
+  let v = 1 - b;
+
+  return [h, Math.round(sv * 100), Math.round(v * 100)];
+};
 
 const Hex2Rgb = (hex: string) => {
   let r = parseInt(hex.slice(1, 3), 16);
@@ -129,7 +147,12 @@ const Rgb2Hex = (rgb: number[]) => {
 // console.log("to hsv: ", hsv);
 // console.log("to hsl: ", Hsv2Hsl(hsv));
 
-let rgb = Hex2Rgb("#a67a0c");
-let hex = Rgb2Hex(rgb);
-console.log("RGB: ", rgb);
-console.log("HEX BEFORE: #a67a0c", "HEX AFTER: " + hex);
+// let rgb = Hex2Rgb("#a67a0c");
+// let hex = Rgb2Hex(rgb);
+// console.log("RGB: ", rgb);
+// console.log("HEX BEFORE: #a67a0c", "HEX AFTER: " + hex);
+
+let hsv = Hsl2Hsv([217, 100, 61]);
+let hwb = Hsv2Hwb(hsv);
+let x = Hsv2Hsl(Hwb2Hsv(hwb));
+console.log(x);

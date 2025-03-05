@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let hsl = [154, 40, 50];
 const Hsl2Rgb = (hsl) => {
     let h = hsl[0];
     let sl = hsl[1] / 100;
@@ -70,7 +69,9 @@ const Rgb2HSL = (rgb) => {
     return [Math.round(h), Math.round(sl * 100), Math.round(l * 100)];
 };
 const Hsl2Hsv = (hsl) => {
-    let h = hsl[0], sl = hsl[1] / 100, l = hsl[2] / 100;
+    let h = hsl[0];
+    let sl = hsl[1] / 100;
+    let l = hsl[2] / 100;
     let v = l + sl * Math.min(l, 1 - l);
     let sv;
     if (v === 0) {
@@ -82,7 +83,9 @@ const Hsl2Hsv = (hsl) => {
     return [h, Math.round(sv * 100), Math.round(v * 100)];
 };
 const Hsv2Hsl = (hsv) => {
-    let h = hsv[0], sv = hsv[1] / 100, v = hsv[2] / 100;
+    let h = hsv[0];
+    let sv = hsv[1] / 100;
+    let v = hsv[2] / 100;
     let l = v * (1 - sv / 2);
     let sl;
     if (l === 0 || l === 1) {
@@ -93,11 +96,24 @@ const Hsv2Hsl = (hsv) => {
     }
     return [h, Math.round(sl * 100), Math.round(l * 100)];
 };
-//
 const Hsv2Rgb = (hsv) => { };
 const Rgb2Hsv = (rgb) => { };
-const Hsv2Hwb = (hsv) => { };
-const Hwb2Hsv = (hwb) => { };
+const Hsv2Hwb = (hsv) => {
+    let h = hsv[0];
+    let sv = hsv[1] / 100;
+    let v = hsv[2] / 100;
+    let w = (1 - sv) * v;
+    let b = 1 - v;
+    return [h, Math.round(w * 100), Math.round(b * 100)];
+};
+const Hwb2Hsv = (hwb) => {
+    let h = hwb[0];
+    let w = hwb[1] / 100;
+    let b = hwb[2] / 100;
+    let sv = 1 - w / (1 - b);
+    let v = 1 - b;
+    return [h, Math.round(sv * 100), Math.round(v * 100)];
+};
 const Hex2Rgb = (hex) => {
     let r = parseInt(hex.slice(1, 3), 16);
     let g = parseInt(hex.slice(3, 5), 16);
@@ -110,6 +126,7 @@ const Rgb2Hex = (rgb) => {
     let b1 = rgb[2].toString(16).padStart(2, "0");
     return "#" + r1 + g1 + b1;
 };
+// let hsl = [154, 40, 50];
 // console.log("hsl: ", hsl);
 // let rgb = Hsl2Rgb(hsl);
 // console.log("to rgb: ", rgb);
@@ -117,8 +134,12 @@ const Rgb2Hex = (rgb) => {
 // let hsv = Hsl2Hsv(hsl);
 // console.log("to hsv: ", hsv);
 // console.log("to hsl: ", Hsv2Hsl(hsv));
-let rgb = Hex2Rgb("#a67a0c");
-let hex = Rgb2Hex(rgb);
-console.log("RGB: ", rgb);
-console.log("HEX BEFORE: #a67a0c", "HEX AFTER: " + hex);
+// let rgb = Hex2Rgb("#a67a0c");
+// let hex = Rgb2Hex(rgb);
+// console.log("RGB: ", rgb);
+// console.log("HEX BEFORE: #a67a0c", "HEX AFTER: " + hex);
+let hsv = Hsl2Hsv([217, 100, 61]);
+let hwb = Hsv2Hwb(hsv);
+let x = Hsv2Hsl(Hwb2Hsv(hwb));
+console.log(x);
 //# sourceMappingURL=script.js.map
